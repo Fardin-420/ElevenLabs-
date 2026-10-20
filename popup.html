@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root { --bg:#0b1220; --panel:#111a2e; --line:#1e293b; --fg:#e2e8f0;
+          --muted:#7b8ba3; --teal:#14b8a6; --violet:#8b5cf6; --red:#f87171; }
+  * { box-sizing:border-box; }
+  body { width:360px; margin:0; background:var(--bg); color:var(--fg);
+         font:13px/1.45 system-ui,-apple-system,sans-serif; }
+  header { display:flex; align-items:center; justify-content:space-between;
+           padding:12px 14px; border-bottom:1px solid var(--line); }
+  h1 { font-size:14px; margin:0; letter-spacing:.02em; }
+  .pill { font-size:10px; padding:3px 9px; border-radius:999px;
+          background:var(--panel); color:var(--muted); }
+  .pill.ok { color:var(--teal); } .pill.bad { color:var(--red); }
+  nav { display:flex; border-bottom:1px solid var(--line); }
+  nav button { flex:1; background:none; border:0; color:var(--muted);
+               padding:10px 0; font-size:12px; cursor:pointer; }
+  nav button.active { color:var(--teal); box-shadow:inset 0 -2px 0 var(--teal); }
+  section { padding:14px; }
+  input[type=text], input:not([type]) { width:100%; padding:9px 11px; border-radius:8px;
+    border:1px solid var(--line); background:var(--panel); color:var(--fg);
+    font-family:ui-monospace,monospace; letter-spacing:.06em; text-transform:uppercase; }
+  .row { display:flex; gap:8px; margin-top:9px; }
+  button.primary { background:var(--teal); color:#04140f; border:0; }
+  button { flex:1; padding:9px 11px; border-radius:8px; border:1px solid var(--line);
+           background:var(--panel); color:var(--fg); font-size:12px; cursor:pointer; }
+  button.danger { border-color:#7f1d1d; color:#fca5a5; }
+  .bar { height:6px; background:var(--panel); border-radius:999px; margin:12px 0; overflow:hidden; }
+  .bar > div { height:100%; width:0; background:var(--violet); transition:width .3s; }
+  pre { font-size:11px; color:var(--muted); white-space:pre-wrap; margin:0; }
+  .codeRow { display:flex; align-items:center; gap:9px; padding:8px 0;
+             border-bottom:1px solid var(--line); }
+  .code { font-family:ui-monospace,monospace; color:var(--teal); font-weight:700; }
+  .disc { color:var(--violet); font-size:11px; }
+  .method { margin-left:auto; font-size:10px; color:var(--muted); }
+  .muted { color:var(--muted); }
+  .ok { color:var(--teal); } .bad { color:var(--red); } .warn { color:#fbbf24; }
+  label { display:block; margin:11px 0 5px; font-size:11px; color:var(--muted); }
+  .check { display:flex; align-items:center; gap:7px; margin:9px 0; font-size:12px; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>ElevenLabs Codes</h1>
+    <span id="keyStatus" class="pill">…</span>
+  </header>
+
+  <nav>
+    <button data-tab="check" class="active">Check</button>
+    <button data-tab="scan">Scan</button>
+    <button data-tab="valid">Valid</button>
+    <button data-tab="settings">⚙</button>
+  </nav>
+
+  <section id="tab-check">
+    <input id="codeInput" placeholder="ENTER CODE" autocapitalize="characters" autocomplete="off">
+    <div class="row">
+      <button id="checkBtn" class="primary">Check</button>
+      <button id="deepBtn">Deep check</button>
+    </div>
+    <div id="checkResult" style="margin-top:12px"></div>
+  </section>
+
+  <section id="tab-scan" hidden>
+    <div class="row">
+      <button id="scanBtn" class="primary">Start scan</button>
+      <button id="stopBtn">Stop</button>
+    </div>
+    <div class="bar"><div id="barFill"></div></div>
+    <pre id="log"></pre>
+  </section>
+
+  <section id="tab-valid" hidden>
+    <div id="validList"></div>
+  </section>
+
+  <section id="tab-settings" hidden>
+    <label>Stripe publishable key</label>
+    <input id="pkInput" placeholder="pk_live_…">
+    <div class="row">
+      <button id="savePk" class="primary">Save</button>
+      <button id="rediscover">Auto-discover</button>
+    </div>
+    <div class="check"><input type="checkbox" id="deepToggle"><span>Deep check survivors</span></div>
+    <div class="check"><input type="checkbox" id="autoToggle"><span>Auto-scan every 6h</span></div>
+    <button id="clearBtn" class="danger" style="margin-top:10px;width:100%">Clear database</button>
+  </section>
+
+  <script src="popup.js"></script>
+</body>
+</html>
